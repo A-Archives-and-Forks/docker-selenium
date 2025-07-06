@@ -23,7 +23,7 @@
 | SE_SUPERVISORD_PID_FILE | /tmp/supervisord.pid | Default pid file will be created by supervisord |  |
 | SE_DRAIN_AFTER_SESSION_COUNT | 0 | Drain and detach node from grid after session count exceeds | --drain-after-session-count |
 | SE_SUB_PATH |  | A sub-path that should be considered for all user facing routes on the Hub/Router/Standalone | --sub-path |
-| SE_NODE_GRID_URL |  | Node config, public URL of the Grid as a whole (typically the address of the Hub or the Router) | --grid-url |
+| SE_NODE_GRID_URL | http://localhost:4444 | Node config, public URL of the Grid as a whole (typically the address of the Hub or the Router) | --grid-url |
 | SE_HUB_HOST |  | Hub config, host address the Hub should listen on | --host |
 | SE_ROUTER_HOST |  | Router config, host address the Router should listen on | --host |
 | SE_HUB_PORT | 4444 | Hub config, port the Hub should listen on (default 4444) | --port |
@@ -37,10 +37,10 @@
 | SE_UPLOAD_RETAIN_LOCAL_FILE |  |  |  |
 | SE_VIDEO_UPLOAD_BATCH_CHECK |  |  |  |
 | SE_RCLONE_ |  |  |  |
-| SE_OPTS |  |  |  |
+| SE_OPTS |  | This is used to pass any additional CLI options (which doesn't have environment variable representation) to the component. Refer to list supported options per component in [documentation](https://www.selenium.dev/documentation/grid/configuration/cli_options/) |  |
 | SE_EVENT_BUS_HOST |  |  |  |
 | SE_EVENT_BUS_PORT | 5557 |  |  |
-| SE_LOG_LEVEL | INFO |  | --log-level |
+| SE_LOG_LEVEL | INFO | Log level. Default logging level is INFO. Log levels are described [here](https://docs.oracle.com/en/java/javase/11/docs/api/java.logging/java/util/logging/Level.html) | --log-level |
 | SE_HTTP_LOGS | false |  | --http-logs |
 | SE_STRUCTURED_LOGS | false |  | --structured-logs |
 | SE_EXTERNAL_URL |  |  | --external-url |
@@ -76,7 +76,7 @@
 | SE_EVENT_BUS_SUBSCRIBE_PORT | 4443 |  |  |
 | SE_NODE_SESSION_TIMEOUT | 300 |  | --session-timeout |
 | SE_NODE_ENABLE_MANAGED_DOWNLOADS | true | This causes the Node to auto manage files downloaded for a given session on the Node | --enable-managed-downloads |
-| SE_NODE_ENABLE_CDP |  |  | --enable-cdp |
+| SE_NODE_ENABLE_CDP |  | Enable CDP proxying in Grid. A Grid admin can disable CDP if the network doesnot allow websockets. True by default. | --enable-cdp |
 | SE_NODE_REGISTER_PERIOD | 120 |  | --register-period |
 | SE_NODE_REGISTER_CYCLE | 10 |  | --register-cycle |
 | SE_NODE_HEARTBEAT_PERIOD | 30 |  | --heartbeat-period |

@@ -43,6 +43,7 @@ on:
       - '**.md'
       - '**/*.md'
       - 'CHANGELOG/**'
+      - 'tests/build-backward-compatible/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref == github.ref_protected && github.run_id || github.event.pull_request.number || github.ref }}

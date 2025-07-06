@@ -76,6 +76,7 @@ Talk to us at https://www.selenium.dev/support/
 * [Building the images](#building-the-images)
 * [Build the images with specific versions](#build-the-images-with-specific-versions)
 * [Upgrade browser version in the images](#upgrade-browser-version-in-the-images)
+* [Upgrade browser and driver versions in the images](#upgrade-browser-and-driver-versions-in-the-images)
 * [Waiting for the Grid to be ready](#waiting-for-the-grid-to-be-ready)
   * [Adding a HEALTHCHECK to the Grid](#adding-a-healthcheck-to-the-grid)
   * [Using a bash script to wait for the Grid](#using-a-bash-script-to-wait-for-the-grid)
@@ -1485,6 +1486,44 @@ $ VERSION=$SELENIUM_VERSION make edge_upgrade_version
 ```
 
 You can refer to detail commands in the [Makefile](Makefile) file.
+
+---
+
+## Upgrade browser and driver versions in the images
+
+| Image name                     | Support |
+|--------------------------------|---------|
+| node-chrome, standalone-chrome | ✅       |
+
+There are two ways of usage this feature.
+
+1. Upgrade Chrome and ChromeDriver later in runtime (when starting the container). Set the container environment `SE_UPDATE_CHROME_COMPONENTS` to `true`. For example:
+    ```bash
+    docker run -d -p 4444:4444 -p 5900:5900 --shm-size="2g" -e SE_UPDATE_CHROME_COMPONENTS=true selenium/standalone-chrome:latest
+    ```
+    Tradeoff:
+    Note that after the container gets restarted, updated binaries will be lost unless you call the update script within the build container process (the second usage below).
+
+2. Build your own image by reusing image layers with upgrading Chrome and ChromeDriver to the latest
+   Create a simple Dockerfile as below
+    ```Dockerfile
+    FROM --platform=linux/amd64 selenium/standalone-chrome:latest
+    RUN /opt/bin/update-chrome-components.sh
+    ```
+    - Option 1: Build your own image tag
+    ```bash
+    docker buildx build --platform linux/amd64 -t selenium/standalone-chrome:my-latest .
+    ```
+   - Option 2: Use Dockerfile in docker compose
+    ```yml
+    services:
+      chrome:
+        build:
+          context: .
+          dockerfile: Dockerfile
+        image: selenium/standalone-chrome:my-latest
+        # Add environments, ports, volumes, etc. as needed
+    ```
 
 ---
 
