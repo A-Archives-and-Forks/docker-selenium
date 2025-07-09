@@ -1,3 +1,16 @@
+## :heavy_check_mark: selenium-grid-0.45.1
+
+- Chart is using image tag 4.34.0-20250707
+- Chart is tested on Kubernetes versions: v1.26.15,v1.27.16,v1.28.15,v1.29.15,v1.30.13,v1.31.9,v1.32.5,v1.33.1
+- Chart is tested on container runtime Docker versions: 26.1.4,27.4.1,27.5.1
+- Chart is tested on Helm versions: v3.11.3,v3.12.3,v3.13.3,v3.14.3,v3.15.4,v3.16.4,v3.17.3,v3.18.0
+- Chart is tested autoscaling capabilities with KEDA image tag: 2.17.2
+
+### Changed
+- [`c462c9c4`](http://github.com/seleniumhq/docker-selenium/commit/c462c9c439b1d44eed673b6dfc82bbf149c1d8f6) - K8s: Add new annotation as new rule in ingress-nginx controller (#2891) :: Viet Nguyen Duc
+- [`7dda02d5`](http://github.com/seleniumhq/docker-selenium/commit/7dda02d59435710f39e9871fcfc6f97a9c0ce60d) - K8s: Fix video uploader secrets pass to Node single container (#2886) :: Viet Nguyen Duc
+- [`e1982d72`](http://github.com/seleniumhq/docker-selenium/commit/e1982d7260f8ddcc2f678803b9c77cd0f73548f1) - [ci] Update chart 0.45.0 changelog :: Selenium CI Bot
+
 ## :heavy_check_mark: selenium-grid-0.45.0
 
 - Chart is using image tag 4.34.0-20250707
