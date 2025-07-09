@@ -145,7 +145,7 @@
 | SE_NODE_RELAY_BROWSER_VERSION |  |  |  |
 | SE_NODE_RELAY_ONLY | true |  |  |
 | SE_EXTRA_LIBS |  | Extra jars to add to the classpath in server component bootstrap | --ext |
-| SE_NODE_CONNECTION_LIMIT_PER_SESSION | 10 |  |  |
+| SE_NODE_CONNECTION_LIMIT_PER_SESSION | 20 |  |  |
 | SE_SUPERVISORD_UNIX_SERVER_PASSWORD | secret |  |  |
 | SE_FFMPEG_THREADS |  |  |  |
 | SE_OTEL_RESOURCE_ATTRIBUTES |  | Add more attributes to the OpenTelemetry resource, e.g. "service.version=1.0.0,deployment.environment=production" |  |

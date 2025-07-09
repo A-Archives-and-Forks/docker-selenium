@@ -85,7 +85,7 @@
 - name: SE_NODE_BROWSER_VERSION
   default: stable
 - name: SE_NODE_CONNECTION_LIMIT_PER_SESSION
-  default: '10'
+  default: '20'
 - name: SE_NODE_CONTAINER_NAME
   default: ''
 - name: SE_NODE_DELETE_SESSION_ON_UI
