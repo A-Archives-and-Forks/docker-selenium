@@ -17,6 +17,9 @@ our [releases](https://github.com/SeleniumHQ/docker-selenium/releases/tag/4.34.0
 To get notifications of new releases, add yourself as a "Releases only" watcher. 
 
 These images are published to the Docker Hub registry at [Selenium Docker Hub](https://hub.docker.com/u/selenium).
+- Hub: [![Docker Pulls](https://img.shields.io/docker/pulls/selenium/hub.svg?maxAge=604800)](https://hub.docker.com/r/selenium/hub/)
+- Node-Chrome: [![Docker Pulls](https://img.shields.io/docker/pulls/selenium/node-chrome.svg?maxAge=604800)](https://hub.docker.com/r/selenium/node-chrome/)
+- Standalone-Chrome: [![Docker Pulls](https://img.shields.io/docker/pulls/selenium/standalone-chrome.svg?maxAge=604800)](https://hub.docker.com/r/selenium/standalone-chrome/)
 
 ## Community
 
