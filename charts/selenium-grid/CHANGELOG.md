@@ -1,3 +1,16 @@
+## :heavy_check_mark: selenium-grid-0.45.2
+
+- Chart is using image tag 4.34.0-20250717
+- Chart is tested on Kubernetes versions: v1.26.15,v1.27.16,v1.28.15,v1.29.15,v1.30.13,v1.31.9,v1.32.5,v1.33.1
+- Chart is tested on container runtime Docker versions: 26.1.4,27.4.1,27.5.1
+- Chart is tested on Helm versions: v3.11.3,v3.12.3,v3.13.3,v3.14.3,v3.15.4,v3.16.4,v3.17.3,v3.18.0
+- Chart is tested autoscaling capabilities with KEDA image tag: 2.17.2
+
+### Changed
+- [`dbc18db0`](http://github.com/seleniumhq/docker-selenium/commit/dbc18db035f2b5822aa89db360b25dc81f5acd1d) - [ci] Update tag 4.34.0-20250717 in docs and files :: Selenium CI Bot
+- [`c239ba50`](http://github.com/seleniumhq/docker-selenium/commit/c239ba50b577272a3666d01dfff0bdc9fb840ddd) - K8s: Resilient Helm config to override `SE_DRAIN_AFTER_SESSION_COUNT` (#2902) :: Viet Nguyen Duc
+- [`3e3479e0`](http://github.com/seleniumhq/docker-selenium/commit/3e3479e007cab2c16a67407f9c9eb84fcbc21fbc) - [ci] Update chart 0.45.1 changelog :: Selenium CI Bot
+
 ## :heavy_check_mark: selenium-grid-0.45.1
 
 - Chart is using image tag 4.34.0-20250707
