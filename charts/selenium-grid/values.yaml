@@ -52,8 +52,9 @@ global:
     #    Note: If not define labelSelector, it will be added automatically based on "app" label in each component
     # -- Specify number of max sessions per node. Can be overridden by individual component (this is also set to scaler trigger parameter `nodeMaxSessions` if `autoscaling` is enabled)
     nodeMaxSessions: 1
-    # Noted:In case of autoscaling enabled, with scaling type `job`, Node will be drained following `nodeMaxSessions` by default
+    # Noted: In case of autoscaling enabled, with scaling type `job`, Node will be drained following `nodeMaxSessions` by default
     # If changing `nodeDrainAfterSessionCount` > `nodeMaxSessions` it will take precedence over `nodeMaxSessions` in scaling type `job`
+    # For other cases, `nodeDrainAfterSessionCount` > 0 always take effect.
     # -- Set number of sessions will be executed in a Node before detaching it from Hub and shutting it down
     nodeDrainAfterSessionCount: 0
     # -- This causes the Node to auto manage files downloaded for a given session on the Node (https://www.selenium.dev/documentation/webdriver/drivers/remote_webdriver/#enable-downloads-in-the-grid)

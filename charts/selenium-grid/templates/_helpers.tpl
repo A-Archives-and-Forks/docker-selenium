@@ -572,7 +572,7 @@ template:
         - name: SE_NODE_MAX_SESSIONS
           value: {{ $nodeMaxSessions | quote }}
         - name: SE_DRAIN_AFTER_SESSION_COUNT
-          value: {{ and (eq (include "seleniumGrid.useKEDA" $) "true") (eq .Values.autoscaling.scalingType "job") | ternary $nodeMaxSessions 0 | quote }}
+          value: {{ and (eq (include "seleniumGrid.useKEDA" $) "true") (eq .Values.autoscaling.scalingType "job") | ternary (max $nodeMaxSessions $nodeDrainAfterSessionCount) $nodeDrainAfterSessionCount | quote }}
         - name: SE_NODE_PORT
           value: {{ .node.port | quote }}
         - name: DISPLAY_CONTAINER_NAME
