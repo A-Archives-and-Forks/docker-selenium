@@ -106,6 +106,12 @@ jobs:
         run: |
           echo ${GRID_VERSION}
           echo "GRID_VERSION=${GRID_VERSION}" >> "$GITHUB_OUTPUT"
+      - name: Fetch latest version
+        run: |
+          python3 -m pip install -r tests/requirements.txt
+          python3 tests/build-backward-compatible/fetch_firefox_version.py
+          python3 tests/build-backward-compatible/fetch_version.py
+          make update_selenium_version_matrix
       - name: Login Docker Hub
         run: docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
         env:
