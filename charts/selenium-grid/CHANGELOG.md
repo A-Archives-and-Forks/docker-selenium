@@ -1,3 +1,18 @@
+## :heavy_check_mark: selenium-grid-0.46.1
+
+- Chart is using image tag 4.35.0-20250828
+- Chart is tested on Kubernetes versions: v1.26.15,v1.27.16,v1.28.15,v1.29.15,v1.30.14,v1.31.11,v1.32.7,v1.33.3
+- Chart is tested on container runtime Docker versions: 26.1.4,27.4.1,27.5.1
+- Chart is tested on Helm versions: v3.11.3,v3.12.3,v3.13.3,v3.14.3,v3.15.4,v3.16.4,v3.17.4,v3.18.4
+- Chart is tested autoscaling capabilities with KEDA image tag: 2.17.2
+
+### Changed
+- [`e7cc44c1`](http://github.com/seleniumhq/docker-selenium/commit/e7cc44c1a1da860664198080436973d3d2cb7ebb) - [ci] Update tag 4.35.0-20250828 in docs and files :: Selenium CI Bot
+- [`ea468461`](http://github.com/seleniumhq/docker-selenium/commit/ea468461c352a3ed46752484feaeff5a640e325a) - [ci] Automic update browser versions matrix and workflow (#2945) :: Viet Nguyen Duc
+- [`b4e1c0a3`](http://github.com/seleniumhq/docker-selenium/commit/b4e1c0a34d7be388e84d81c2730eadd2ab051268) - K8s: Add more versions chart values of cross browsers :: Viet Nguyen Duc
+- [`4ca031c8`](http://github.com/seleniumhq/docker-selenium/commit/4ca031c8d703ac890f10630391b3dbe7606b1c31) - Update Helm release kube-prometheus-stack to v77 (#2937) :: renovate[bot]
+- [`ad385eb8`](http://github.com/seleniumhq/docker-selenium/commit/ad385eb85f3d8ef304d040a0763a5fe3b7786e85) - [ci] Update chart 0.46.0 changelog :: Selenium CI Bot
+
 ## :heavy_check_mark: selenium-grid-0.46.0
 
 - Chart is using image tag 4.35.0-20250808
