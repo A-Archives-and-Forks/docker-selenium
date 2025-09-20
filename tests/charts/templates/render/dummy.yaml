@@ -45,6 +45,12 @@ monitoring:
 autoscaling:
   enableWithExistingKEDA: true
   scalingType: deployment
+  patchObjectFinalizers:
+    tolerations:
+      - key: "node-role.kubernetes.io/master"
+        operator: "Equal"
+        value: "true"
+        effect: "NoExecute"
   scaledObjectOptions:
     pollingInterval: 30
     initialCooldownPeriod: 0

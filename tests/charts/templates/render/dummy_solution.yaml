@@ -26,6 +26,12 @@ selenium-grid:
   autoscaling:
     enableWithExistingKEDA: true
     scalingType: deployment
+    patchObjectFinalizers:
+      tolerations:
+        - key: "node-role.kubernetes.io/master"
+          operator: "Equal"
+          value: "true"
+          effect: "NoExecute"
 
   monitoring:
     enabledWithExistingAgent: true
