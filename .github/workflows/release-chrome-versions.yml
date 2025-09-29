@@ -164,6 +164,7 @@ jobs:
         uses: actions/checkout@main
         with:
           persist-credentials: false
+          ref: browser-node-changelog
           fetch-depth: 0
       - name: Get Grid version
         run: |
