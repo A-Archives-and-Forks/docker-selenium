@@ -1,7 +1,7 @@
 matrix:
   browser:
     '143':
-      FIREFOX_VERSION: 143.0.3
+      FIREFOX_VERSION: 143.0.4
       FIREFOX_PLATFORMS: linux/amd64,linux/arm64
     '142':
       FIREFOX_VERSION: 142.0.1
