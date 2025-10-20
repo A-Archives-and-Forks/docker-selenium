@@ -1,3 +1,20 @@
+## :heavy_check_mark: selenium-grid-0.48.0
+
+- Chart is using image tag 4.37.0-20251020
+- Chart is tested on Kubernetes versions: v1.28.15,v1.29.15,v1.30.14,v1.31.12,v1.32.9,v1.33.5,v1.34.1
+- Chart is tested on container runtime Docker versions: 27.5.1,28.4.0
+- Chart is tested on Helm versions: v3.13.3,v3.14.3,v3.15.4,v3.16.4,v3.17.4,v3.18.6,v3.19.0
+- Chart is tested autoscaling capabilities with KEDA image tag: 2.18.0
+
+### Changed
+- [`4643901b`](http://github.com/seleniumhq/docker-selenium/commit/4643901bd9904fbfc11527fb9846152e7d7df7f6) - [ci] Update tag 4.37.0-20251020 in docs and files :: Selenium CI Bot
+- [`a22c1991`](http://github.com/seleniumhq/docker-selenium/commit/a22c1991950408b0aa26f3f15e1bbecce46f92c1) - K8s: Instead of probe to restart Distributor, adding event bus heartbeat to prevent steal connection (#2995) :: Viet Nguyen Duc
+- [`4a178966`](http://github.com/seleniumhq/docker-selenium/commit/4a1789664a638bbbff9e4d22597a83ffd4f327a7) - Update Selenium Grid 4.37.0 (#2994) :: Viet Nguyen Duc
+- [`c80fb944`](http://github.com/seleniumhq/docker-selenium/commit/c80fb944702b088684808b128ae5512a9b9e0b76) - chore(deps): update helm release kube-prometheus-stack to v78 (#2985) :: renovate[bot]
+- [`fbe332f3`](http://github.com/seleniumhq/docker-selenium/commit/fbe332f390e8d519e505cb1420794877b56d06a2) - Update Helm release redis to v23 (#2981) :: renovate[bot]
+- [`4e589ca5`](http://github.com/seleniumhq/docker-selenium/commit/4e589ca5a5d8e4123d36782bfc5efa270bd5f231) - Update Helm release postgresql to v18 (#2980) :: renovate[bot]
+- [`8771194e`](http://github.com/seleniumhq/docker-selenium/commit/8771194e54968c78f8081b040819d967005b39b5) - [ci] Update chart 0.47.0 changelog :: Selenium CI Bot
+
 ## :heavy_check_mark: selenium-grid-0.47.0
 
 - Chart is using image tag 4.36.0-20251001
