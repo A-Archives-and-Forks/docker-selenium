@@ -100,6 +100,9 @@ generate_readme_charts:
 update_list_env_vars: install_python_deps
 	python3 scripts/generate_list_env_vars/extract_env.py
 
+update_release_version: install_python_deps
+	python3 scripts/release_preparation/update_versions.py --expected-base-version $(EXPECTED_BASE_VERSION)
+
 update_selenium_version_matrix: install_python_deps
 	python3 tests/build-backward-compatible/add_selenium_version.py $(BASE_VERSION)
 
