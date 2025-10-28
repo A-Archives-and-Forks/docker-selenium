@@ -5,12 +5,14 @@ on:
     inputs:
       grid-version:
         required: true
+        default: '4.37.0'
         type: string
   workflow_dispatch:
     inputs:
       grid-version:
         required: true
         type: string
+        default: '4.37.0'
         description: Expected Grid version to update
 
 jobs:
@@ -43,7 +45,6 @@ jobs:
           EXPECTED_BASE_VERSION=${EXPECTED_BASE_VERSION} make update_release_version
           make update_selenium_version_matrix
           make update_browser_versions_matrix
-          make lint_format_scripts
         env:
           EXPECTED_BASE_VERSION: ${{ inputs.grid-version }}
       - name: Commit & Push changes
