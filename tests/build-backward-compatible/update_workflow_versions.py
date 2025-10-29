@@ -7,7 +7,7 @@ import yaml
 # Minimum browser versions to include in workflows
 MIN_CHROME_VERSION = 95
 MIN_FIREFOX_VERSION = 98
-MIN_EDGE_VERSION = 95
+MIN_EDGE_VERSION = 114
 
 
 def read_browser_matrix(file_path, min_chrome_version, min_firefox_version, min_edge_version):
