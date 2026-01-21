@@ -12,7 +12,8 @@ matrix:
     '144':
       FIREFOX_VERSION: 144.0.2
       FIREFOX_PLATFORMS: linux/amd64,linux/arm64
-      CHROME_VERSION: google-chrome-stable=144.0.7559.59-1
+      CHROME_VERSION: google-chrome-stable=144.0.7559.96-1
+      CFT_VERSION: 144.0.7559.96
     '143':
       FIREFOX_VERSION: 143.0.4
       FIREFOX_PLATFORMS: linux/amd64,linux/arm64
