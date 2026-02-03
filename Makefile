@@ -652,7 +652,7 @@ tag_major_minor:
 	docker tag $(NAME)/standalone-docker:$(TAG_VERSION) $(NAME)/standalone-docker:$(MAJOR_MINOR_PATCH)
 	docker tag $(NAME)/standalone-all-browsers:$(TAG_VERSION) $(NAME)/standalone-all-browsers:$(MAJOR_MINOR_PATCH)
 
-release: tag_major_minor release_grid_scaler
+release: tag_major_minor
 	@if ! docker images --format table $(NAME)/base | awk '{ print $$2 }' | grep -q -F $(TAG_VERSION); then echo "$(NAME)/base version $(TAG_VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images --format table $(NAME)/hub | awk '{ print $$2 }' | grep -q -F $(TAG_VERSION); then echo "$(NAME)/hub version $(TAG_VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images --format table $(NAME)/distributor | awk '{ print $$2 }' | grep -q -F $(TAG_VERSION); then echo "$(NAME)/distributor version $(TAG_VERSION) is not yet built. Please run 'make build'"; false; fi
