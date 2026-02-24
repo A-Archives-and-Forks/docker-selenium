@@ -1,3 +1,22 @@
+## :heavy_check_mark: selenium-grid-0.52.0
+
+- Chart is using image tag 4.41.0-20260222
+- Chart is tested on Kubernetes versions: v1.29.15,v1.30.14,v1.31.14,v1.32.10,v1.33.6,v1.34.2
+- Chart is tested on container runtime Docker versions: 27.5.1,28.5.2,29.1.1
+- Chart is tested on Helm versions: v3.14.3,v3.15.4,v3.16.4,v3.17.4,v3.18.6,v3.19.2,v4.0.1
+- Chart is tested autoscaling capabilities with KEDA image tag: 2.19.0
+
+### Changed
+- [`aafc9ed8`](http://github.com/seleniumhq/docker-selenium/commit/aafc9ed8027613b8d0936a11bde501b84253afec) - [ci] Update tag 4.41.0-20260222 in docs and files :: Selenium CI Bot
+- [`f90d1eed`](http://github.com/seleniumhq/docker-selenium/commit/f90d1eed07bfb6409577035f7f06528d0272ce6c) - Unified configs for Dynamic Grid Docker and Kubernetes (#3088) :: Viet Nguyen Duc
+- [`ccd697ce`](http://github.com/seleniumhq/docker-selenium/commit/ccd697cef2b13904c628b5d968447df1e7c30ed4) - K8s: Add config to disable plain logs while enabling structured logs (#3087) :: Viet Nguyen Duc
+- [`56e0192c`](http://github.com/seleniumhq/docker-selenium/commit/56e0192cd54ba7658288ef20c40e1b07305ef315) - K8s: Missing tolerations for monitoring exporter deployment (#3086) :: Viet Nguyen Duc
+- [`f4132db9`](http://github.com/seleniumhq/docker-selenium/commit/f4132db97b170d89f3c93eb3523257dec6262c7a) - K8s: Replace Ingress NGINX with Traefik for default ingress controller (#3083) :: Viet Nguyen Duc
+- [`6ada994e`](http://github.com/seleniumhq/docker-selenium/commit/6ada994e6af1f46fae1e51324d827e3dd1bcb269) - [build] Update Selenium Grid 4.41.0 (#3080) :: Selenium CI Bot
+- [`61765ef7`](http://github.com/seleniumhq/docker-selenium/commit/61765ef7f9607b242b2aa5d3857c6061d577a726) - Update Helm release kube-prometheus-stack to v82 (#3073) :: renovate[bot]
+- [`5f8bbcbe`](http://github.com/seleniumhq/docker-selenium/commit/5f8bbcbebcd909e1091eee70f5f36aef706ad8cc) - Update Helm release redis to v25 (#3074) :: renovate[bot]
+- [`e2b6ea20`](http://github.com/seleniumhq/docker-selenium/commit/e2b6ea20c9b0f76c020086ca69b4927673076b99) - [ci] Update chart 0.51.1 changelog :: Selenium CI Bot
+
 ## :heavy_check_mark: selenium-grid-0.51.1
 
 - Chart is using image tag 4.40.0-20260202
