@@ -19,7 +19,7 @@ configs = [
 
 # Docker image used for video recording (set to "false" to disable. Recommend to use new browser
 # image tag which has video recorder/uploader inline).
-# video-image = "selenium/video:ffmpeg-8.0-20260202"
+# video-image = "selenium/video:ffmpeg-8.0-20260222"
 
 # Session assets path — when the Node Pod has a PVC mounted at this path,
 # browser Jobs automatically share it for video/logs/capabilities persistence
