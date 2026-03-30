@@ -326,8 +326,9 @@ class VideoService:
         then extracts nodeId and externalUri from the response.
 
         Response structure differs by mode:
-        - Standalone: $.value.nodes[0].id, $.value.nodes[0].externalUri
-        - Distributed: $.value.node.nodeId, $.value.node.externalUri
+        - Standalone (hub): $.value.nodes[0].id, $.value.nodes[0].externalUri
+        - Distributed (node): $.value.node.nodeId, $.value.node.externalUri
+        - Standalone sidecar on dynamic grid node: falls back to $.value.node path
         """
         node_status_url = f"{self.se_server_protocol}://{self.display_container}:{self.se_node_port}/status"
         headers = {}
@@ -368,6 +369,12 @@ class VideoService:
                                 node_info = nodes[0]
                                 self.node_id = node_info.get("id")
                                 self.node_external_uri = node_info.get("externalUri")
+                            else:
+                                # Fallback: sidecar connected directly to a node
+                                # (e.g. dynamic grid where /status returns singular "node")
+                                node_info = body.get("value", {}).get("node", {})
+                                self.node_id = node_info.get("nodeId") or node_info.get("id")
+                                self.node_external_uri = node_info.get("externalUri")
                         else:
                             node_info = body.get("value", {}).get("node", {})
                             self.node_id = node_info.get("nodeId")
@@ -383,7 +390,10 @@ class VideoService:
             except Exception as e:
                 logger.warning(f"Unexpected error polling Node /status: {e}")
 
-            await asyncio.sleep(self.node_poll_interval)
+            try:
+                await asyncio.wait_for(self.shutdown_event.wait(), timeout=self.node_poll_interval)
+            except asyncio.TimeoutError:
+                pass
 
     # ==================== Recording Functions ====================
 
@@ -451,9 +461,20 @@ class VideoService:
             session.ffmpeg_process = await asyncio.create_subprocess_exec(
                 *cmd,
                 env=env,
-                stdout=asyncio.subprocess.PIPE,
+                stdout=asyncio.subprocess.DEVNULL,
                 stderr=asyncio.subprocess.PIPE,
             )
+            # Give ffmpeg a moment to fail fast (bad codec, missing display, etc.)
+            await asyncio.sleep(0.5)
+            if session.ffmpeg_process.returncode is not None:
+                stderr_output = await session.ffmpeg_process.stderr.read()
+                logger.error(
+                    f"ffmpeg exited immediately for {session.session_id} "
+                    f"(rc={session.ffmpeg_process.returncode}): {stderr_output.decode(errors='replace').strip()}"
+                )
+                session.ffmpeg_process = None
+                session.status = SessionStatus.CREATED
+                return False
             logger.info(f"Started recording: session={session.session_id}, file={session.video_file}")
             return True
         except Exception as e:
@@ -473,15 +494,25 @@ class VideoService:
         try:
             session.ffmpeg_process.terminate()
             try:
-                await asyncio.wait_for(session.ffmpeg_process.wait(), timeout=10.0)
+                _, stderr_bytes = await asyncio.wait_for(session.ffmpeg_process.communicate(), timeout=10.0)
             except asyncio.TimeoutError:
                 logger.warning(f"ffmpeg did not stop gracefully for {session.session_id}, killing")
                 session.ffmpeg_process.kill()
-                await session.ffmpeg_process.wait()
+                _, stderr_bytes = await session.ffmpeg_process.communicate()
 
+            rc = session.ffmpeg_process.returncode
+            if stderr_bytes:
+                stderr_text = stderr_bytes.decode(errors="replace").strip()
+                if stderr_text:
+                    logger.warning(f"ffmpeg stderr for {session.session_id}: {stderr_text}")
             session.ffmpeg_process = None
-            self.recorded_count += 1
 
+            # 255 is ffmpeg's own graceful-stop exit code (exit_program(255) in its SIGTERM handler).
+            if rc not in (0, 255, -signal.SIGTERM, -signal.SIGKILL):
+                logger.error(f"ffmpeg exited with unexpected code {rc} for {session.session_id}")
+                return False
+
+            self.recorded_count += 1
             duration = session.duration_seconds
             logger.info(
                 f"Stopped recording: session={session.session_id}, " f"duration={duration:.1f}s"
@@ -556,10 +587,13 @@ class VideoService:
                 stderr=asyncio.subprocess.PIPE,
             )
             self.active_uploads.append(proc)
-
-            stdout, stderr = await proc.communicate()
-
-            self.active_uploads.remove(proc)
+            try:
+                stdout, stderr = await proc.communicate()
+            finally:
+                try:
+                    self.active_uploads.remove(proc)
+                except ValueError:
+                    pass
 
             if proc.returncode == 0:
                 logger.info(f"Upload complete: {task.video_file}")
@@ -575,14 +609,21 @@ class VideoService:
         active_tasks: List[asyncio.Task] = []
 
         try:
-            while not self.shutdown_event.is_set() or not self.upload_queue.empty():
+            while True:
                 try:
-                    # Get task with timeout to check shutdown
-                    try:
-                        task = await asyncio.wait_for(self.upload_queue.get(), timeout=1.0)
-                    except asyncio.TimeoutError:
-                        continue
+                    # Block until an item is available (or cancelled)
+                    task = await self.upload_queue.get()
+                except asyncio.CancelledError:
+                    logger.warning("Upload worker cancelled, pending uploads may be lost")
+                    for t in active_tasks:
+                        t.cancel()
+                    raise
 
+                # None is the sentinel pushed by cleanup() to signal no more uploads
+                if task is None:
+                    break
+
+                try:
                     # Process upload (could run multiple in parallel up to batch_size)
                     upload_task = asyncio.create_task(self.process_upload(task))
                     active_tasks.append(upload_task)
@@ -594,11 +635,10 @@ class VideoService:
                     if len(active_tasks) >= self.upload_batch_size:
                         done, pending = await asyncio.wait(active_tasks, return_when=asyncio.FIRST_COMPLETED)
                         active_tasks = list(pending)
-
                 except Exception as e:
                     logger.error(f"Upload worker error: {e}")
 
-            # Wait for remaining uploads
+            # Drain all in-flight uploads before exiting
             if active_tasks:
                 logger.info(f"Waiting for {len(active_tasks)} pending uploads...")
                 await asyncio.gather(*active_tasks, return_exceptions=True)
@@ -671,9 +711,6 @@ class VideoService:
         # Stop recording if in progress
         if session.ffmpeg_process is not None:
             await self.stop_recording(session)
-            # Small delay to ensure file is finalized
-            await asyncio.sleep(0.5)
-            # Queue upload
             await self.queue_upload(session)
 
         # Clean up session after a delay (keep for potential late events)
@@ -846,35 +883,28 @@ class VideoService:
                     return
             except Exception:
                 pass
-            await asyncio.sleep(2)
+            try:
+                await asyncio.wait_for(self.shutdown_event.wait(), timeout=2)
+            except asyncio.TimeoutError:
+                pass
 
     async def cleanup(self) -> None:
         """Cleanup all resources."""
         logger.info("Shutting down...")
 
-        # Stop all active recordings
+        # Snapshot active sessions outside the lock so we don't hold
+        # sessions_lock across slow awaits (stop_recording can take up to 10s).
         async with self.sessions_lock:
-            for session in self.sessions.values():
-                if session.ffmpeg_process is not None:
-                    logger.info(f"Stopping recording: {session.session_id}")
-                    await self.stop_recording(session)
-                    await self.queue_upload(session)
+            active_sessions = [s for s in self.sessions.values() if s.ffmpeg_process is not None]
 
-        # Signal upload worker to finish
-        self.shutdown_event.set()
+        for session in active_sessions:
+            logger.info(f"Stopping recording: {session.session_id}")
+            await self.stop_recording(session)
+            await self.queue_upload(session)
 
-        # Wait for upload worker
-        try:
-            await asyncio.wait_for(self.uploader_done.wait(), timeout=30)
-        except asyncio.TimeoutError:
-            logger.warning("Upload worker did not finish in time")
-
-        # Kill any remaining uploads
-        for proc in self.active_uploads:
-            try:
-                proc.kill()
-            except Exception:
-                pass
+        # Push sentinel so the upload worker exits after draining the queue.
+        # run() is responsible for awaiting the upload task with a timeout.
+        await self.upload_queue.put(None)
 
         logger.info("Shutdown complete")
 
@@ -909,18 +939,34 @@ class VideoService:
             logger.error("Failed to resolve Node ID from /status endpoint, exiting")
             return
 
-        # Start workers
-        tasks = [
-            asyncio.create_task(self.subscribe_events(), name="event_subscriber"),
-            asyncio.create_task(self.upload_worker(), name="upload_worker"),
-        ]
+        # Upload worker runs independently — it exits only when cleanup() pushes
+        # a None sentinel, so it is NOT included in the gather below.
+        upload_task = asyncio.create_task(self.upload_worker(), name="upload_worker")
 
         try:
-            await asyncio.gather(*tasks)
+            await asyncio.gather(
+                asyncio.create_task(self.subscribe_events(), name="event_subscriber"),
+            )
         except asyncio.CancelledError:
             logger.info("Tasks cancelled")
         finally:
+            # cleanup() stops recordings, queues uploads, then pushes the sentinel.
             await self.cleanup()
+
+            # Wait for the upload worker to drain and exit.
+            try:
+                await asyncio.wait_for(upload_task, timeout=30)
+            except asyncio.TimeoutError:
+                logger.warning("Upload worker did not finish in time, cancelling")
+                upload_task.cancel()
+                await asyncio.gather(upload_task, return_exceptions=True)
+
+            # Kill any rclone processes still in flight
+            for proc in self.active_uploads:
+                try:
+                    proc.kill()
+                except Exception:
+                    pass
 
 
 async def main():
