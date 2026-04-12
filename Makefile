@@ -491,6 +491,13 @@ mirror_browser_images_ghcr:
 	done ; \
 	done
 
+mirror_browser_channel_image_ghcr:
+	for image in node-$(BROWSER_NAME) standalone-$(BROWSER_NAME); do \
+		docker buildx imagetools create \
+		--tag $(GHCR_NAMESPACE)/$$image:$(BROWSER_TAG) \
+		docker.io/$(NAME)/$$image:$(BROWSER_TAG) ; \
+	done
+
 tag_ffmpeg_latest:
 	docker tag $(NAME)/ffmpeg:$(FFMPEG_VERSION)-$(BUILD_DATE) $(NAME)/ffmpeg:latest
 	docker tag $(NAME)/ffmpeg:$(FFMPEG_VERSION)-$(BUILD_DATE) $(NAME)/ffmpeg:$(FFMPEG_VERSION)

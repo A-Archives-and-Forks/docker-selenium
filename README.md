@@ -4,7 +4,7 @@
 [![Nightly](https://github.com/SeleniumHQ/docker-selenium/actions/workflows/nightly.yml/badge.svg)](https://github.com/SeleniumHQ/docker-selenium/actions/workflows/nightly.yml)
 [![Update Dev/Beta Browser Images](https://github.com/SeleniumHQ/docker-selenium/actions/workflows/update-dev-beta-browser-images.yml/badge.svg)](https://github.com/SeleniumHQ/docker-selenium/actions/workflows/update-dev-beta-browser-images.yml)
 [![Releases downloads](https://img.shields.io/github/downloads/seleniumhq/docker-selenium/total.svg)](https://github.com/SeleniumHQ/docker-selenium/releases)
-[<img src="https://devin.ai/assets/deepwiki-badge.png" alt="Ask DeepWiki.com" height="20"/>](https://deepwiki.com/SeleniumHQ/docker-selenium)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/SeleniumHQ/docker-selenium)
 
 ![GitHub Last Commit](https://img.shields.io/github/last-commit/seleniumhq/docker-selenium)
 [![GitHub Release](https://img.shields.io/github/v/release/seleniumhq/docker-selenium?link=https%3A%2F%2Fgithub.com%2Fseleniumhq%2Fdocker-selenium%2Freleases%2Flatest&label=latest%20Image)](https://github.com/seleniumhq/docker-selenium/releases/)
@@ -56,6 +56,7 @@ Talk to us at https://www.selenium.dev/support/
 * [Video recording](#video-recording)
 * [Video recording with dynamic file name based on metadata in tests](#video-recording-with-dynamic-file-name-based-on-metadata-in-tests)
 * [Video recording and uploading](#video-recording-and-uploading)
+* [Retain recordings for failed sessions only](#retain-recordings-for-failed-sessions-only)
 * [Dynamic Grid](#dynamic-grid)
   * [Configuration example](#configuration-example)
   * [Share volumes config of Dynamic Grid container to node browser containers](#share-volumes-config-of-dynamic-grid-container-to-node-browser-containers)
@@ -846,7 +847,7 @@ When using in Dynamic Grid, those variables should be combined with the prefix `
 | `SE_UPLOAD_CONFIG_FILE_NAME`  | `upload.conf`                                | Config file for remote host instead of set via env variable prefix SE_RCLONE_*            |
 | `SE_UPLOAD_CONFIG_DIRECTORY`  | `/opt/bin`                                   | Directory of config file (change it when conf file in another directory is mounted)       |
 
-### Retain recordings for failed sessions only
+## Retain recordings for failed sessions only
 
 In event-driven mode (`SE_VIDEO_EVENT_DRIVEN=true`, the default), the video service subscribes to the Grid's ZeroMQ event bus and reacts to session lifecycle events in real time. This enables a **retain-on-failure** strategy: record every session, but automatically discard the video when the session passes and only keep (and upload) recordings from sessions that fail.
 
