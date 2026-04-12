@@ -533,6 +533,13 @@ release_ffmpeg_latest:
 	docker push $(NAME)/ffmpeg:$(FFMPEG_VERSION)
 	docker push $(NAME)/ffmpeg:$(FFMPEG_VERSION)-$(BUILD_DATE)
 
+release_ffmpeg_ghcr_latest:
+	for tag in latest $(FFMPEG_VERSION) $(FFMPEG_VERSION)-$(BUILD_DATE); do \
+		docker buildx imagetools create \
+		--tag $(GHCR_NAMESPACE)/ffmpeg:$$tag \
+		docker.io/$(NAME)/ffmpeg:$$tag ; \
+	done
+
 release_latest:
 	docker push $(NAME)/base:latest
 	docker push $(NAME)/hub:latest
