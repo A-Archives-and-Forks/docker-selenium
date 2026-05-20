@@ -198,8 +198,6 @@ fi
 
 echo "Using JAVA_OPTS: ${SE_JAVA_OPTS}"
 
-/opt/bin/selenium-grid-exporter &
-
 java ${SE_JAVA_OPTS} \
   -jar /opt/selenium/selenium-server.jar \
   ${EXTRA_LIBS} router \
