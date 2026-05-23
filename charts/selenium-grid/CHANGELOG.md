@@ -1,3 +1,22 @@
+## :heavy_check_mark: selenium-grid-0.55.0
+
+- Chart is using image tag 4.44.0-20260505
+- Chart is tested on Kubernetes versions: v1.29.15,v1.30.14,v1.31.14,v1.32.10,v1.34.2
+- Chart is tested on container runtime Docker versions: 27.5.1,28.5.2,29.1.1
+- Chart is tested on Helm versions: v3.14.3,v3.15.4,v3.16.4,v3.17.4,v3.18.6,v3.19.2,v4.0.1
+- Chart is tested autoscaling capabilities with KEDA image tag: 2.19.0
+
+### Changed
+- [`afa75cd7`](http://github.com/seleniumhq/docker-selenium/commit/afa75cd715d23dcc10aae9e9de6d493bd9bb8ce2) - [ci] Update tag 4.44.0-20260505 in docs and files :: Selenium CI Bot
+- [`8d10f621`](http://github.com/seleniumhq/docker-selenium/commit/8d10f621fdbe9c1543ca52e8955fad6e07c3ae83) - Docker: Add Redis external datastore support for Distributor configuration (#3137) :: Viet Nguyen Duc
+- [`e13a4095`](http://github.com/seleniumhq/docker-selenium/commit/e13a40950bc11d4f06dbe943b49c415661d3f954) - Docker: Grid endpoint /metrics for exporter or K8s ServiceMonitor (#3135) :: Viet Nguyen Duc
+- [`6a51dc1a`](http://github.com/seleniumhq/docker-selenium/commit/6a51dc1a0cb5bd6be6df5f984db847560b4f7829) - Update Helm release traefik to v40 (#3130) :: renovate[bot]
+- [`44b85beb`](http://github.com/seleniumhq/docker-selenium/commit/44b85bebac18e29dd29a30f22b923d9e30f854fa) - Update Helm release kube-prometheus-stack to v85 (#3132) :: renovate[bot]
+- [`312af177`](http://github.com/seleniumhq/docker-selenium/commit/312af17764931dfe6d167ee5adc06aab7f49119d) - chart(feature): add dnsPolicy and dnsConfig support (#3126) :: Ilia Lazebnik
+- [`6b39a64a`](http://github.com/seleniumhq/docker-selenium/commit/6b39a64aafee054c31a88fe443312a29db862cea) - Update Helm release kube-prometheus-stack to v84 (#3124) :: renovate[bot]
+- [`a2aefd8e`](http://github.com/seleniumhq/docker-selenium/commit/a2aefd8e4316d8cd931d3f90a37dc2bf4c2c1200) - chart(selenium-grid): add ServiceMonitor and PodMonitor support for Prometheus Operator (#3121) :: Ilia Lazebnik
+- [`4b79f58b`](http://github.com/seleniumhq/docker-selenium/commit/4b79f58bda699b762cd7bd6bb72c6b3c0892dc32) - [ci] Update chart 0.54.0 changelog :: Selenium CI Bot
+
 ## :heavy_check_mark: selenium-grid-0.54.0
 
 - Chart is using image tag 4.43.0-20260404
