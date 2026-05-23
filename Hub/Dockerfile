@@ -6,7 +6,7 @@ ARG VERSION=latest
 FROM golang:latest AS exporter-builder
 WORKDIR /src
 COPY --from=exporter-src . .
-RUN go mod edit -go=$(go env GOVERSION | sed 's/go//') && go get -t -u ./... && go mod tidy
+RUN go mod edit -go=$(go env GOVERSION | sed 's/go//') && go mod tidy
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /selenium-grid-exporter .
 
 #========================
