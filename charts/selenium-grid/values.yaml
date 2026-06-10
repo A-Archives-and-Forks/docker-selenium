@@ -2347,29 +2347,29 @@ jaeger:
   storage:
     type: badger
 
-# Configuration for dependency chart PostgreSQL (README: https://artifacthub.io/packages/helm/bitnami/postgresql)
+# Configuration for dependency chart PostgreSQL (README: https://artifacthub.io/packages/helm/cloudpirates/postgres)
 postgresql:
   # -- Enable to install PostgreSQL along with Grid
   enabled: false
-  image:
-    repository: bitnamilegacy/postgresql
+  # -- Enable persistence using Persistent Volume Claims
+  persistence:
+    enabled: false
   # -- Authentication should be aligned with config in session map
   auth:
     username: "seluser"
     password: "seluser"
     database: "selenium_sessions"
-  primary:
-    initdb:
-      # -- Initdb scripts for PostgreSQL to create sessions_map table
-      scripts:
-        init.sql: |
-          CREATE TABLE IF NOT EXISTS sessions_map(
-            session_ids varchar(256),
-            session_caps text,
-            session_uri varchar(256),
-            session_stereotype text,
-            session_start varchar(256)
-          );
+  initdb:
+    # -- Initdb scripts for PostgreSQL to create sessions_map table
+    scripts:
+      init.sql: |
+        CREATE TABLE IF NOT EXISTS sessions_map(
+          session_ids varchar(256),
+          session_caps text,
+          session_uri varchar(256),
+          session_stereotype text,
+          session_start varchar(256)
+        );
 
 # Configuration for dependency chart Redis (README: https://artifacthub.io/packages/helm/cloudpirates/redis)
 redis:
